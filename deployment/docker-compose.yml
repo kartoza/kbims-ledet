@@ -32,6 +32,7 @@ services:
       - ./backups:/backups
       - ./sql:/sql
     environment:
+      - ALLOW_IP_RANGE=0.0.0.0/0
       - USERNAME=docker
       - PASS=docker
     restart: unless-stopped
