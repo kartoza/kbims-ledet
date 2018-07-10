@@ -114,11 +114,11 @@ collectstatic:
 	@echo "------------------------------------------------------------------"
 	@echo "Collecting static in production mode"
 	@echo "------------------------------------------------------------------"
-	#@docker-compose exec uwsgi python manage.py collectstatic --noinput
+	#@docker-compose run --rm uwsgi python manage.py collectstatic --noinput
 	#We need to run collect static in the same context as the running
 	# uwsgi container it seems so I use docker exec here
 	# no -it flag so we can run over remote shell
-	@docker-compose exec uwsgi python manage.py collectstatic --noinput
+	@docker-compose ${ARGS} exec uwsgi python manage.py collectstatic --noinput ${CMD_ARGS} -i geonode -i geoexplorer -i geonode_generic -i js -i lib
 
 reload:
 	@echo
