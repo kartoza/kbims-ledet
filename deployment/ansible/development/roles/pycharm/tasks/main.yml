@@ -1,8 +1,8 @@
 ---
 - name: customize project configuration
   template:
-    src: django-bims-ledet.iml
-    dest: '{{ project_path }}/.idea/django-bims-ledet.iml'
+    src: kbims-ledet.iml
+    dest: '{{ project_path }}/.idea/kbims-ledet.iml'
     owner: '{{ remote_user }}'
     group: '{{ remote_group }}'
     mode: "u=rw,g=rw,o=r"

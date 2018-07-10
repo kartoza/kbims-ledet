@@ -7,7 +7,7 @@ remote_user: lucernae
 # Your linux/mac group that will run ansible
 remote_group: staff
 # Your project location (this repo)
-project_path: "/Users/lucernae/Documents/WorkingDir/Projects/kartoza/django-bims-ledet"
+project_path: "/Users/lucernae/Documents/WorkingDir/Projects/kartoza/kbims-ledet"
 # True if it will be running on Travis
 
 on_travis: False
@@ -33,7 +33,7 @@ btsync_media:
 
 django:
   environment:
-    SITE_DOMAIN_NAME: 'http://django-bims-ledet.test'
+    SITE_DOMAIN_NAME: 'http://kbims-ledet.test'
     GEOCONTEXT_URL: 'http://localhost:65402'
     CONTACT_US_EMAIL: 'dimas@kartoza.com'
     DEBUG: True
@@ -46,7 +46,7 @@ django:
     DATABASE_PASSWORD: docker
     DATABASE_USERNAME: docker
     DATABASE_HOST: db
-    SITEURL: http://django-bims-ledet.test/
+    SITEURL: http://kbims-ledet.test/
 
 geonode:
   environment:
@@ -61,27 +61,27 @@ geonode:
     IS_CELERY: False
     C_FORCE_ROOT: 1
     # replaced with defaults in settings
-    GEOSERVER_PUBLIC_LOCATION: django-bims-ledet.test/geoserver/
+    GEOSERVER_PUBLIC_LOCATION: kbims-ledet.test/geoserver/
     GEOSERVER_LOCATION: http://geoserver:8080/geoserver/
     STATIC_ROOT: /home/web/static/static
     MEDIA_ROOT: /home/web/media
     GEOIP_PATH: /home/web/media/geoip.db
-    ALLOWED_HOSTS: ['django-bims-ledet.test']
+    ALLOWED_HOSTS: ['kbims-ledet.test']
     ADMIN_EMAILS: dimas@kartoza.com
     GEOSERVER_ADMIN_PASSWORD: admingeoserver
 
 geoserver:
   environment:
     GEOSERVER_ADMIN_PASSWORD: admingeoserver
-    SITEURL: http://django-bims-ledet.test/
+    SITEURL: http://kbims-ledet.test/
 
 interpreters:
   django:
     name: 'LEDET Container'
-    domain_alias: 'django-bims-ledet.test'
+    domain_alias: 'kbims-ledet.test'
     ssh_port: &inasafe_django_ssh_port 63303
     pycharm_helpers: /home/web/django_project/.pycharm_helpers
-    ipaddress: &inasafe_django_host_ip django-bims-ledet.test
+    ipaddress: &inasafe_django_host_ip kbims-ledet.test
 
 docker_port_forward:
   django:
