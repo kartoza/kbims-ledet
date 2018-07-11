@@ -7,7 +7,8 @@ COPY REQUIREMENTS.txt /REQUIREMENTS.txt
 RUN pip install -r /REQUIREMENTS.txt
 
 ARG LEDET_TAG=develop
-RUN git clone --depth=1 --branch ${LEDET_TAG} git://github.com/kartoza/LEDET_BIMS.git /usr/src/ledet
+RUN git clone --depth=1 --branch ${LEDET_TAG} git://github.com/kartoza/LEDET_BIMS.git /usr/src/LEDET_BIMS
+RUN ln -s /usr/src/LEDET_BIMS/django_project /usr/src/ledet
 
 WORKDIR /usr/src/ledet
 
