@@ -37,11 +37,11 @@ django:
     GEOCONTEXT_URL: 'http://localhost:65402'
     CONTACT_US_EMAIL: 'dimas@kartoza.com'
     DEBUG: True
-    DJANGO_SETTINGS_MODULE: core.settings.dev_docker
+    DJANGO_SETTINGS_MODULE: ledet_core.settings.dev_docker
     RABBITMQ_HOST: rabbitmq
     HAYSTACK_HOST: elasticsearch
     PYTHONPATH: /usr/src/app:/usr/src/bims:/home/web/django_project
-    ROOT_URLCONF: core.urls
+    ROOT_URLCONF: ledet_core.urls
     DATABASE_NAME: gis
     DATABASE_PASSWORD: docker
     DATABASE_USERNAME: docker
