@@ -5,3 +5,5 @@ MAINTAINER Dimas Ciputra<dimas@kartoza.com>
 
 COPY REQUIREMENTS.txt /REQUIREMENTS.txt
 RUN pip install -r /REQUIREMENTS.txt
+
+ADD uwsgi.conf /home/web/uwsgi.conf

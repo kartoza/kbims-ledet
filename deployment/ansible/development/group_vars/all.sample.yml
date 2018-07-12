@@ -32,6 +32,8 @@ btsync_media:
       DEVICE:
 
 django:
+  # Use this for debug mode. Comment for prod mode
+  command: /usr/sbin/sshd -D
   environment:
     SITE_DOMAIN_NAME: 'http://kbims-ledet.test'
     GEOCONTEXT_URL: 'http://localhost:65402'
@@ -47,6 +49,10 @@ django:
     DATABASE_USERNAME: docker
     DATABASE_HOST: db
     SITEURL: http://kbims-ledet.test/
+
+web:
+  # Use this for debug mode. Comment for prod mode
+  command: debug
 
 geonode:
   environment:
@@ -87,6 +93,7 @@ docker_port_forward:
   django:
     db: 6543
     elastic_search: 9200
-    http: 64302
     ssh: 64303
     karma_tests: 64304
+  web:
+    http: 64302

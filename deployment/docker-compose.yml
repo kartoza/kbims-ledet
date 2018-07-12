@@ -51,7 +51,7 @@ services:
   geoserver:
     image: geosolutionsit/geoserver-docker:2.13.x
     restart: unless-stopped
-    depends_on:
+    links:
       - db
       - data-dir-conf
     volumes:
@@ -66,9 +66,9 @@ services:
   uwsgi:
     build:
       context: docker
-    hostname: uwsgi
+    command: uwsgi --ini /home/web/uwsgi.conf
     working_dir: /usr/src/app
-    depends_on:
+    links:
       - elasticsearch
       - geoserver
     environment:
@@ -122,53 +122,14 @@ services:
     container_name: limpopo-web
     image: nginx
     hostname: nginx
-    depends_on:
+    entrypoint: /etc/nginx/sites-available/docker-entrypoint.sh
+    command: prod
+    volumes:
+      - ./production/nginx_conf/sites-enabled:/etc/nginx/sites-available:ro
+    links:
       - uwsgi
       - db
-    volumes:
-      - ./sites-enabled:/etc/nginx/conf.d:ro
-      # I dont use volumes_from as I want to use the ro modifier
-      - ./static:/home/web/static:ro
-      - ./media:/home/web/media:ro
-      - ./logs:/var/log/nginx
-    ports:
-      - "64200:8080"
     restart: unless-stopped
-
-  # This is the entry point for a development server.
-  # Run with --no-deps to run attached to the services
-  # from produ environment if wanted
-  devweb:
-    # Note you cannot scale if you use container_name
-    container_name: limpopo-dev-web
-    build:
-      context: ../src/LEDET_BIMS/deployment/docker
-      dockerfile: ../src/LEDET_BIMS/deployment/docker/Dockerfile-dev
-    hostname: uwsgi
-    links:
-      - elasticsearch
-    environment:
-      - DATABASE_NAME=gis
-      - DATABASE_USERNAME=docker
-      - DATABASE_PASSWORD=docker
-      - DATABASE_HOST=db
-      - DJANGO_SETTINGS_MODULE=core.settings.dev_docker
-      - PYTHONPATH=/home/web/django_project
-      - VIRTUAL_HOST=limpopo.kartoza.com
-      - VIRTUAL_PORT=8080
-      - RABBITMQ_HOST=rabbitmq
-      - CONTACT_US_EMAIL=dimas@kartoza.com
-    volumes:
-      - ../django_project:/home/web/django_project
-      - ./static:/home/web/static
-      - ./media:/home/web/media
-      - ./reports:/home/web/reports
-      - ./logs:/var/log/
-    ports:
-      # for django test server
-      - "64302:8080"
-      # for ssh
-      - "64303:22"
 
   btsync-db:
     # BTSync backups for database dumps
