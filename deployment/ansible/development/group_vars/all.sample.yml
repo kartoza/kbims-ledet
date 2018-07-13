@@ -53,6 +53,8 @@ django:
 web:
   # Use this for debug mode. Comment for prod mode
   command: debug
+  # just another key to make sure web is a dict
+  environment:
 
 geonode:
   environment:
@@ -69,7 +71,7 @@ geonode:
     # replaced with defaults in settings
     GEOSERVER_PUBLIC_LOCATION: kbims-ledet.test/geoserver/
     GEOSERVER_LOCATION: http://geoserver:8080/geoserver/
-    STATIC_ROOT: /home/web/static/static
+    STATIC_ROOT: /home/web/static
     MEDIA_ROOT: /home/web/media
     GEOIP_PATH: /home/web/media/geoip.db
     ALLOWED_HOSTS: ['kbims-ledet.test']
