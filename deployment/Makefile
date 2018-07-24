@@ -52,6 +52,15 @@ web:
 
 up: web
 
+pull:
+	@docker pull kartoza/kbims_uwsgi:latest
+	@docker-compose pull
+
+submodule-update:
+	@git submodule init
+	@git submodule update
+	@cd ../src/LEDET_BIMS; git submodule init; git submodule update
+
 down:
 	@docker-compose down
 
@@ -283,6 +292,13 @@ enable-machine:
 	@echo "Enabling docker machine."
 	@echo "------------------------------------------------------------------"
 	@echo "eval \"$(docker-machine env freshwater)\""
+
+geonode-init:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "First init of GeoNode."
+	@echo "------------------------------------------------------------------"
+	@docker-compose exec uwsgi /bin/sh -c "cd /usr/src/app; paver sync"
 
 sync-roles:
 	@echo

@@ -87,6 +87,7 @@ services:
       - ../src/LEDET_BIMS/django_project:/home/web/django_project
       - ./static:/home/web/static:rw
       - ./media:/home/web/media:rw
+      - ./geonode_backup:/data
       - ./logs:/var/log/
       - ../.pycharm_helpers:/root/.pycharm_helpers
     ports:
@@ -104,7 +105,7 @@ services:
     {% endif %}
 
     volumes:
-      - ./production/nginx_conf/sites-enabled:/etc/nginx/sites-available:ro
+      - ./production/nginx_conf/sites-available:/etc/nginx/sites-available:ro
       # I dont use volumes_from as I want to use the ro modifier
       - ./static:/home/web/static:ro
       - ./media:/home/web/media:ro

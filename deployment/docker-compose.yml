@@ -22,6 +22,7 @@ services:
       - maildomain=kartoza.com
       - smtp_user=noreply:docker
     restart: unless-stopped
+    network_mode: "bridge"
 
   db:
     # Note you cannot scale if you use container_name
@@ -36,6 +37,7 @@ services:
       - USERNAME=docker
       - PASS=docker
     restart: unless-stopped
+    network_mode: "bridge"
   #  Uncomment the next line to have an access with PGAdmin using localhost and port 25432 on your computer.
   #  Only for development !
   #  ports:
@@ -47,21 +49,23 @@ services:
     command: /bin/true
     volumes:
       - geoserver-data-dir:/geoserver_data/data
+    network_mode: "bridge"
 
   geoserver:
     image: geosolutionsit/geoserver-docker:2.13.x
     restart: unless-stopped
     links:
       - db
-      - data-dir-conf
     volumes:
       - geoserver-data-dir:/geoserver_data/data
+    network_mode: "bridge"
 
   limpopo_uwsgi:
     build:
       context: docker
       dockerfile: Dockerfile
     image: limpopo_uwsgi:latest
+    network_mode: "bridge"
 
   uwsgi:
     build:
@@ -95,11 +99,12 @@ services:
       - geoserver:geoserver
     restart: on-failure:5
     user: root
+    network_mode: "bridge"
 
   dbbackups:
     # Note you cannot scale if you use container_name
     container_name: limpopo-db-backups
-    image: kartoza/pg-backup:9.4
+    image: kartoza/pg-backup:9.6
     hostname: pg-backups
     volumes:
       - ./backups:/backups
@@ -115,6 +120,7 @@ services:
       - PGHOST=db
       - PGDATABASE=gis
     restart: unless-stopped
+    network_mode: "bridge"
 
   # This is normally the main entry point for a production server
   web:
@@ -124,12 +130,16 @@ services:
     hostname: nginx
     entrypoint: /etc/nginx/sites-available/docker-entrypoint.sh
     command: prod
+    environment:
+      GEOSERVER_FORWARD: 1
     volumes:
-      - ./production/nginx_conf/sites-enabled:/etc/nginx/sites-available:ro
+      - ./production/nginx_conf/sites-available:/etc/nginx/sites-available:ro
     links:
-      - uwsgi
+      - uwsgi:django
       - db
+      - geoserver
     restart: unless-stopped
+    network_mode: "bridge"
 
   btsync-db:
     # BTSync backups for database dumps
@@ -138,6 +148,7 @@ services:
     volumes:
       # We mount RW so that we can use remove peer to clean up old backups off the server
       - ./backups:/web:rw
+    network_mode: "bridge"
 
   btsync-media:
     # BTSync backups for django media
@@ -146,6 +157,7 @@ services:
     volumes:
       # We mount RO as we do not really want peers to change this data
       - ./media:/web:ro
+    network_mode: "bridge"
 
   rabbitmq:
     image: library/rabbitmq
@@ -155,6 +167,7 @@ services:
       - USER=rabbit_user
       - RABBITMQ_NODENAME=rabbit
     restart: unless-stopped
+    network_mode: "bridge"
 
   worker:
     build: ../src/LEDET_BIMS/deployment/docker
@@ -177,6 +190,7 @@ services:
       - ./reports:/home/web/reports
       - ./logs:/var/log/
     restart: on-failure:5
+    network_mode: "bridge"
 
   elasticsearch:
     # Note you cannot scale if you use conteiner_name
@@ -190,3 +204,4 @@ services:
       - bootstrap.memory_lock=true
     ports:
       - "64309:9200"
+    network_mode: "bridge"
