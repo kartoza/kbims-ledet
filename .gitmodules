@@ -1,4 +1,4 @@
 [submodule "src/LEDET_BIMS"]
 	path = src/LEDET_BIMS
 	url = https://github.com/kartoza/LEDET_BIMS.git
-	branch = develop
+	branch = master
