@@ -31,7 +31,7 @@ echo "LEDET_TAG=${LEDET_TAG}"
 echo "Build: $REPO_NAME/$IMAGE_NAME:$TAG_NAME"
 
 docker build -t ${REPO_NAME}/${IMAGE_NAME} \
-	--build-arg LEDET_TAG=${LEDET_TAG} \
+	--build-arg LEDET_TAG=${LEDET_TAG} --build-arg BIMS_TAG=${BIMS_TAG} \
 	${BUILD_ARGS} .
 docker tag ${REPO_NAME}/${IMAGE_NAME}:latest ${REPO_NAME}/${IMAGE_NAME}:${TAG_NAME}
 docker push ${REPO_NAME}/${IMAGE_NAME}:${TAG_NAME}
