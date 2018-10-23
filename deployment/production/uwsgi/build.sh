@@ -4,6 +4,10 @@ if [ -z "$REPO_NAME" ]; then
 	REPO_NAME=kartoza
 fi
 
+if [ -z "$BIMS_TAG" ]; then
+	BIMS_TAG=latest
+fi
+
 if [ -z "$IMAGE_NAME" ]; then
 	IMAGE_NAME=ledet_uwsgi
 fi
